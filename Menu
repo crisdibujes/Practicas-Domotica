@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prácticas de Domótica e IoT</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #334155;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light);
+            color: var(--text);
+        }
+        header {
+            background-color: var(--dark);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+        header p {
+            color: #94a3b8;
+            margin-top: 0.5rem;
+        }
+        nav {
+            background-color: var(--primary);
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 10px;
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 1.5rem;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        .btn:hover {
+            background-color: #1d4ed8;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Prácticas de Domótica e IoT</h1>
+        <p>Evolución desde sistemas cableados hasta IoT con ESP32, Arduino Cloud y Alexa</p>
+    </header>
+
+    <nav>
+        <a href="#introduccion">Inicio</a>
+        <a href="#practicas">Menú de Prácticas</a>
+        <a href="#requisitos">Requisitos</a>
+    </nav>
+
+    <div class="container">
+        
+        <section id="introduccion">
+            <h2>Evolución Tecnológica</h2>
+            <p>La domótica evolucionó desde sistemas cableados profesionales (KNX, X10, BACnet) hacia redes inalámbricas descentralizadas de bajo costo basadas en microcontroladores (ESP32, Arduino) integrados con servicios Cloud y Asistentes de Voz.</p>
+        </section>
+
+        <section id="practicas">
+            <h2>Selecciona una Práctica</h2>
+            <div class="grid">
+                
+                <div class="card">
+                    <div>
+                        <h3>01. Protocolos e Historia</h3>
+                        <p>Fundamentos teóricos de los sistemas de bus cableados (KNX/X10) y su comparación con las tecnologías inalámbricas actuales.</p>
+                    </div>
+                    <a href="https://github.com/crisdibujes/Practicas-Domotica/tree/main/01-Introduccion-Protocolos" class="btn">Ver Práctica</a>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <h3>02. Fundamentos ESP32</h3>
+                        <p>Control básico de GPIOs, lectura de sensores digitales/analógicos y conexión Wi-Fi programada en C++.</p>
+                    </div>
+                    <a href="https://github.com/crisdibujes/Practicas-Domotica/tree/main/02-Arduino-ESP32" class="btn">Ver Práctica</a>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <h3>03. Plataformas IoT Cloud</h3>
+                        <p>Monitoreo e interactividad en tiempo real conectando el ESP32 con tableros interactivos en Arduino Cloud y Blynk.</p>
+                    </div>
+                    <a href="https://github.com/crisdibujes/Practicas-Domotica/tree/main/03-Plataformas-Cloud" class="btn">Ver Práctica</a>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <h3>04. Control por Voz (Alexa)</h3>
+                        <p>Integración de un módulo de relé con ESP32 mediante la Skill oficial de Arduino en Amazon Alexa.</p>
+                    </div>
+                    <a href="https://github.com/crisdibujes/Practicas-Domotica/tree/main/04-Integracion-Alexa" class="btn">Ver Práctica</a>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <h3>05. Home Assistant</h3>
+                        <p>Consolidación de automatización local, dashboards e integración de protocolos como Zigbee y MQTT.</p>
+                    </div>
+                    <a href="https://github.com/crisdibujes/Practicas-Domotica/tree/main/05-Home-Assistant" class="btn">Ver Práctica</a>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>
