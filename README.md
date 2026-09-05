@@ -1,166 +1,85 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prácticas de Domótica e IoT</title>
-    <style>
-        :root {
-            --primary: #2563eb;
-            --dark: #0f172a;
-            --light: #f8fafc;
-            --card-bg: #ffffff;
-            --text: #334155;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--light);
-            color: var(--text);
-        }
-        header {
-            background-color: var(--dark);
-            color: white;
-            padding: 2rem 1rem;
-            text-align: center;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2.2rem;
-        }
-        header p {
-            color: #94a3b8;
-            margin-top: 0.5rem;
-        }
-        nav {
-            background-color: var(--primary);
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            padding: 10px;
-            flex-wrap: wrap;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 8px 16px;
-            border-radius: 5px;
-            transition: background 0.3s;
-        }
-        nav a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-        .container {
-            max-width: 1100px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 1.5rem;
-        }
-        .card {
-            background: var(--card-bg);
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e2e8f0;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .card h3 {
-            margin-top: 0;
-            color: var(--primary);
-        }
-        .btn {
-            display: inline-block;
-            background-color: var(--primary);
-            color: white;
-            padding: 10px 15px;
-            text-decoration: none;
-            border-radius: 5px;
-            text-align: center;
-            font-weight: bold;
-            margin-top: 15px;
-        }
-        .btn:hover {
-            background-color: #1d4ed8;
-        }
-    </style>
-</head>
-<body>
+Prácticas-Domótica
+Este repositorio reúne guías, prácticas y ejemplos de Domótica e Internet de las Cosas (IoT), documentando la evolución tecnológica del control del hogar y edificaciones inteligentes, desde sus orígenes cableados hasta el ecosistema actual basado en IoT, Wi-Fi y Asistentes de Voz.
+1. Evolución de la Domótica: De lo Cableado al IoT Inalámbrico
+La domótica comenzó con sistemas cableados y protocolos propietarios de alta fiabilidad, orientados al ámbito profesional y residencial de alta gama. Estándares pioneros como X10 (comunicación a través de la red eléctrica) y KNX / BACnet (mediante bus de datos dedicado) sentaron las bases del control centralizado para iluminación, climatización y persianas.
+Con el avance de la tecnología, la masificación del Wi-Fi y la democratización de la electrónica con la filosofía maker, la domótica evolucionó hacia sistemas inalámbricos descentralizados, flexibles y de bajo costo:
+Hardware Abierto y Microcontroladores: Uso de placas de desarrollo como ESP32 y Arduino para la creación de sensores, actuadores y nodos de automatización a medida.
+Conectividad Wi-Fi y Plataformas Cloud: Gestión, monitoreo y control remoto en tiempo real mediante servicios como Arduino IoT Cloud, Blynk y ESPHome.
+Control por Voz e Integración Oficial: Integración directa con Amazon Alexa a través de la Skill oficial de Arduino para la ejecución de comandos de voz, rutinas de automatización y control accesible de la vivienda.
+Hubs Centralizados y Sofisticación Local: Integración de protocolos de baja potencia (Zigbee, Z-Wave, Thread y el estándar emergente Matter) en plataformas abiertas como Home Assistant, permitiendo unificar dispositivos comerciales de diversas marcas sin dependencia estricta de internet.
+Dispositivos y Marcas Populares en el Mercado
+Categoría
+Marcas Globales Destacadas
+Disponibles / Populares en Ecuador
+ Sistemas Profesionales (Bus)
+KNX, Lutron, Control4, Loxone
+Lutron, Control4, Vimar, Bticino / Legrand
+Hogar Comercial (Wi-Fi / Zigbee)
+Philips Hue, Sonoff, Shelly, Aqara, SwitchBot
+Sonoff, Tuya / Smart Life, Nexxt Solutions, Broadlink
+Control por Voz y Hubs
+Amazon Alexa (Echo), Google Assistant, Apple HomeKit
+Amazon Alexa (Echo Pop/Dot/Show), Google Nest
+Componentes DIY / Desarrollo
+Espressif (ESP32/ESP8266), Arduino, Raspberry Pi
+Espressif (ESP32), Arduino UNO/Nano, Sensores compatibles
 
-    <header>
-        <h1>Prácticas de Domótica e IoT</h1>
-        <p>Evolución desde sistemas cableados hasta IoT con ESP32, Arduino Cloud y Alexa</p>
-    </header>
+2. Estructura del Repositorio
+Practicas-Domotica/
+├── 01-Introduccion-Protocolos/  # Documentación técnica sobre KNX, X10 y redes inalámbricas
+├── 02-Arduino-ESP32/            # Código C++ / Firmware (.ino, .cpp) para placas de desarrollo
+├── 03-Plataformas-Cloud/        # Proyectos y tableros en Blynk y Arduino IoT Cloud
+├── 04-Integracion-Alexa/        # Configuración de Arduino IoT Cloud con la Skill oficial de Amazon Alexa
+├── 05-Home-Assistant/           # Archivos de configuración YAML y automatizaciones locales
+└── README.md                    # Descripción e instrucciones del 
 
-    <nav>
-        <a href="#introduccion">Inicio</a>
-        <a href="#practicas">Menú de Prácticas</a>
-        <a href="#requisitos">Requisitos</a>
-    </nav>
+3. Requisitos Previos
+Software y Entornos de Desarrollo
+Arduino IoT Cloud & Arduino Create Agent.
+Arduino IDE (versión 2.0 o superior) o PlatformIO en VS Code.
+Driver CP210x o CH340 para la detección de la placa ESP32 por USB.
+Cuenta activa en Arduino IoT Cloud.
+Aplicación móvil Amazon Alexa en smartphone o tablet.
+Instalación de Home Assistant (Home Assistant OS en Raspberry Pi o Docker/VM) para las prácticas avanzadas.
+Hardware Sugerido
+Placa de desarrollo ESP32 DevKit v1 (Wi-Fi + Bluetooth).
+Módulo de Relés de 5V (1 a 4 canales) para control de cargas.
+Sensores: DHT11 o DHT22 (Temperatura/Humedad), Sensor Ultrasónico HC-SR04, Sensor LDR (Luz).
+Actuadores: LEDs, Servomotores SG90, Buzzer activo.
+Cableado tipo Dupont (M-M, M-H, H-H) y Protoboard.
+Parlante / Hub inteligente Amazon Echo (opcional, también se puede usar la App Alexa).
+Dispositivos comerciales Sonoff o Tuya (opcional para flotas de pruebas).
 
-    <div class="container">
-        
-        <section id="introduccion">
-            <h2>Evolución Tecnológica</h2>
-            <p>La domótica evolucionó desde sistemas cableados profesionales (KNX, X10, BACnet) hacia redes inalámbricas descentralizadas de bajo costo basadas en microcontroladores (ESP32, Arduino) integrados con servicios Cloud y Asistentes de Voz.</p>
-        </section>
+4. Instalación y Configuración del Entorno de Trabajo
+Paso 1: Clonar el Repositorio
+git clone https://github.com/TuUsuario/Practicas-Domotica.git
+cd Practicas-Domotica
+Paso 2: Configurar Arduino IDE para ESP32
+Abre Arduino IDE.
+Ve a Archivo > Preferencias.
+En el campo Gestor de URLs Adicionales de Tarjetas, agrega la siguiente URL:
+https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+Dirígete a Herramientas > Placa > Gestor de Tarjetas..., busca esp32 de Espressif Systems e instálalo.
+Selecciona tu modelo de placa (ej. ESP32 Dev Module) en Herramientas > Placa.
+Paso 3: Instalación de Librerías Requeridas
+Desde el Gestor de Librerías de Arduino IDE (Herramientas > Administrar Bibliotecas), instala las siguientes dependencias según la práctica a realizar:
+WiFi (incluida en el core de ESP32)
+ArduinoIoTCloud & Arduino_ConnectionHandler
+Blynk (por Volodymyr Shymanskyy)
+DHT sensor library de Adafruit
 
-        <section id="practicas">
-            <h2>Selecciona una Práctica</h2>
-            <div class="grid">
-                
-                <div class="card">
-                    <div>
-                        <h3>01. Protocolos e Historia</h3>
-                        <p>Fundamentos teóricos de los sistemas de bus cableados (KNX/X10) y su comparación con las tecnologías inalámbricas actuales.</p>
-                    </div>
-                    <a href="https://github.com/crisdibujes/Practicas-Domotica/tree/main/01-Introduccion-Protocolos" class="btn">Ver Práctica</a>
-                </div>
+5. Guía Rápida para la Primera Práctica (ESP32 + Arduino Cloud + Alexa)
+Crear la Thing en Arduino IoT Cloud: Ingresa a create.arduino.cc/iot/, crea una nueva "Thing" y asocia tu dispositivo ESP32.
+Añadir Variable para Alexa: Crea una variable booleana de tipo Alexa Switch (ej. rele_estado) con permisos de lectura y escritura (Read & Write) al cambiar (On Change).
+Carga del firmware: Configura tus credenciales Wi-Fi y Secret Key del dispositivo en el editor de Arduino Cloud o sube el código desde tu equipo.
+Vincular con Amazon Alexa:
+Abre la aplicación Amazon Alexa en tu dispositivo móvil.
+Ve a Más > Skills y juegos.
+Busca la Skill oficial Arduino, habilítala e inicia sesión con tu cuenta de Arduino Cloud.
+Detecta nuevos dispositivos. Alexa identificará la variable de tu ESP32 como un interruptor o luz de forma automática.
+Prueba con el comando: "Alexa, enciende el interruptor" o "Alexa, apaga la luz".
 
-                <div class="card">
-                    <div>
-                        <h3>02. Fundamentos ESP32</h3>
-                        <p>Control básico de GPIOs, lectura de sensores digitales/analógicos y conexión Wi-Fi programada en C++.</p>
-                    </div>
-                    <a href="https://github.com/crisdibujes/Practicas-Domotica/tree/main/02-Arduino-ESP32" class="btn">Ver Práctica</a>
-                </div>
+6. Licencia y Contribución
+Este proyecto se distribuye bajo la licencia MIT. Las contribuciones, sugerencias, correcciones de errores o aportes de nuevas prácticas son totalmente bienvenidas mediante Pull Requests.
 
-                <div class="card">
-                    <div>
-                        <h3>03. Plataformas IoT Cloud</h3>
-                        <p>Monitoreo e interactividad en tiempo real conectando el ESP32 con tableros interactivos en Arduino Cloud y Blynk.</p>
-                    </div>
-                    <a href="https://github.com/crisdibujes/Practicas-Domotica/tree/main/03-Plataformas-Cloud" class="btn">Ver Práctica</a>
-                </div>
 
-                <div class="card">
-                    <div>
-                        <h3>04. Control por Voz (Alexa)</h3>
-                        <p>Integración de un módulo de relé con ESP32 mediante la Skill oficial de Arduino en Amazon Alexa.</p>
-                    </div>
-                    <a href="https://github.com/crisdibujes/Practicas-Domotica/tree/main/04-Integracion-Alexa" class="btn">Ver Práctica</a>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <h3>05. Home Assistant</h3>
-                        <p>Consolidación de automatización local, dashboards e integración de protocolos como Zigbee y MQTT.</p>
-                    </div>
-                    <a href="https://github.com/crisdibujes/Practicas-Domotica/tree/main/05-Home-Assistant" class="btn">Ver Práctica</a>
-                </div>
-
-            </div>
-        </section>
-
-    </div>
-
-</body>
-</html>ts.
