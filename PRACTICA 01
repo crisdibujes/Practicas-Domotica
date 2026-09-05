@@ -1,0 +1,188 @@
+📘 Práctica 01: Introducción a la Domótica - Comunicación ESP32 + Bluetooth, Pulsantes Táctiles y Comandos de Voz
+
+ 🎯 Objetivo de la Práctica
+
+El objetivo de esta primera práctica es sentar las bases de la domótica moderna, comprendiendo cómo un microcontrolador como el ESP32 puede interactuar con el mundo real y con el usuario a través de diferentes interfaces:
+
+- Comunicación inalámbrica mediante Bluetooth (BLE o Clásico).
+- Entradas físicas mediante pulsantes táctiles.
+- Interacción avanzada mediante comandos de voz desde un smartphone u otro dispositivo.
+
+Este enfoque mixto permite crear sistemas de control más versátiles, accesibles e inclusivos para el hogar inteligente. Como se menciona en estudios recientes, el control por voz permite "empoderar a los usuarios para realizar actividades rutinarias, como operar luces, ventiladores y puertas, en su idioma local, haciendo que el entorno del hogar inteligente sea seguro e inclusivo".
+
+ 🧠 Marco Teórico - Fundamentos
+
+ 1. El ESP32 y su Ecosistema
+
+El ESP32 es el corazón de esta práctica. Es un microcontrolador de bajo costo y alto rendimiento que incluye conectividad Wi-Fi y Bluetooth integradas, lo que lo hace ideal para proyectos de IoT y domótica.
+
+- Bluetooth (BLE y Clásico): Permite la comunicación inalámbrica con smartphones, tablets y otros dispositivos. En aplicaciones de domótica, se usa comúnmente para la configuración inicial de dispositivos (aprovisionamiento por BLE) o para el control directo desde una aplicación móvil.
+- Procesamiento local: A diferencia de sistemas como Alexa o Google Home que dependen de la nube, un ESP32 puede ejecutar lógica de control localmente, lo que garantiza privacidad y funcionamiento incluso sin internet.
+
+ 2. Interacción con Pulsantes Táctiles
+
+Los pulsantes son la forma más básica y directa de interacción hombre-máquina.
+
+- Función: Actúan como un interruptor que cierra un circuito eléctrico cuando se presiona, enviando una señal digital (HIGH o LOW) al microcontrolador.
+- Aplicación en domótica: Se utilizan como interruptores físicos para encender/apagar luces, activar escenas o como entrada de usuario en el propio dispositivo (ej. un botón de "reset" o "modo configuración").
+
+ 3. Interacción por Comandos de Voz
+
+El control por voz es una de las tendencias más importantes en domótica actual. Permite una interacción "manos libres" y natural con el sistema. Para implementarlo sin depender de servicios en la nube, se puede utilizar reconocimiento de voz local o aplicaciones móviles que actúan como puente.
+
+- Aplicaciones móviles (Puente): Aplicaciones como Dabble o Talk to ESP32 convierten el teléfono en un micrófono inteligente. Estas apps capturan la voz del usuario, la procesan (ya sea localmente o en la nube) y envían comandos predefinidos (como "encender luz") al ESP32 vía Bluetooth.
+- Sistemas Híbridos: Proyectos más avanzados, como AsistIoT, integran el ESP32 con servicios de nube (Google Cloud Speech-to-Text, Dialogflow) para un procesamiento de lenguaje natural más robusto. El teléfono captura el audio, lo envía a la nube para su interpretación y recibe un comando que luego transmite al ESP32.
+
+ 🔧 Desarrollo de la Práctica
+
+ Materiales Necesarios
+
+- 1x Módulo ESP32 DevKit V1.
+- 2x Pulsantes táctiles.
+- 2x Resistencias de 10kΩ (pull-up).
+- 1x Protoboard y cables jumper.
+- 1x Smartphone con Bluetooth (Android o iOS).
+- Aplicación: Dabble o Talk to ESP32 (o similar) instalada.
+
+ Esquema de Conexión
+
+El circuito es simple y sirve para introducir los conceptos de entrada digital.
+
+- Pulsante 1:
+    - Una pata conectada a Pin GPIO 15.
+    - La otra pata conectada a GND.
+    - Con una resistencia de 10kΩ conectada entre el Pin GPIO 15 y 3.3V (configuración pull-up interna o externa).
+- Pulsante 2:
+    - Una pata conectada a Pin GPIO 4.
+    - La otra pata conectada a GND.
+    - Con una resistencia de 10kΩ conectada entre el Pin GPIO 4 y 3.3V.
+
+> Nota: El ESP32 tiene resistencias de pull-up internas, por lo que podrías prescindir de las resistencias externas configurando el pin como `INPUT_PULLUP` en el código.
+
+ Código para ESP32 (Arduino IDE)
+
+Este código integra las tres formas de entrada que define la práctica.
+
+```cpp
+include <BluetoothSerial.h>
+
+// Configuración de Pines
+const int PIN_PULSADOR_1 = 15;
+const int PIN_PULSADOR_2 = 4;
+
+// Variable para el estado de los pulsadores
+bool estadoPulsador1 = false;
+bool estadoPulsador2 = false;
+
+// Configuración Bluetooth
+BluetoothSerial SerialBT;
+String comandoBT = "";
+
+void setup() {
+  Serial.begin(115200);
+  
+  // Configurar pines de pulsadores como entradas con pull-up interno
+  pinMode(PIN_PULSADOR_1, INPUT_PULLUP);
+  pinMode(PIN_PULSADOR_2, INPUT_PULLUP);
+
+  // Iniciar Bluetooth
+  SerialBT.begin("ESP32_Practica01"); // Nombre del dispositivo Bluetooth
+  Serial.println("Dispositivo Bluetooth iniciado. Listo para conectar.");
+}
+
+void loop() {
+  //  1. Lectura de Pulsadores (Entrada Física) 
+  // Detecta si el pulsador fue presionado (transición de HIGH a LOW)
+  // Esta lógica simple envía un mensaje cada vez que se presiona.
+  if (digitalRead(PIN_PULSADOR_1) == LOW) {
+    // Pequeña pausa para evitar rebotes
+    delay(50);
+    if (digitalRead(PIN_PULSADOR_1) == LOW) {
+      estadoPulsador1 = !estadoPulsador1; // Cambia de estado (toggle)
+      String mensaje = "Pulsador 1: " + String(estadoPulsador1 ? "ON" : "OFF");
+      Serial.println(mensaje);
+      SerialBT.println(mensaje); // Envía el estado por Bluetooth
+      // Espera a que se suelte el pulsador
+      while(digitalRead(PIN_PULSADOR_1) == LOW) { delay(10); }
+    }
+  }
+
+  if (digitalRead(PIN_PULSADOR_2) == LOW) {
+    delay(50);
+    if (digitalRead(PIN_PULSADOR_2) == LOW) {
+      estadoPulsador2 = !estadoPulsador2;
+      String mensaje = "Pulsador 2: " + String(estadoPulsador2 ? "ON" : "OFF");
+      Serial.println(mensaje);
+      SerialBT.println(mensaje);
+      while(digitalRead(PIN_PULSADOR_2) == LOW) { delay(10); }
+    }
+  }
+
+  //  2. Comandos por Bluetooth (Incluyendo Voz) 
+  if (SerialBT.available()) {
+    comandoBT = SerialBT.readStringUntil('\n'); // Lee el comando hasta el salto de línea
+    comandoBT.trim(); // Elimina espacios en blanco
+    Serial.println("Comando recibido por BT: " + comandoBT);
+    
+    // Procesar comandos
+    if (comandoBT.equalsIgnoreCase("ENCENDER LUZ 1")) {
+      Serial.println("Acción: Encender Luz 1");
+      // Aquí iría el código para encender un LED o un relé
+    } 
+    else if (comandoBT.equalsIgnoreCase("APAGAR LUZ 1")) {
+      Serial.println("Acción: Apagar Luz 1");
+    }
+    else if (comandoBT.equalsIgnoreCase("ENCENDER LUZ 2")) {
+      Serial.println("Acción: Encender Luz 2");
+    }
+    else if (comandoBT.equalsIgnoreCase("APAGAR LUZ 2")) {
+      Serial.println("Acción: Apagar Luz 2");
+    }
+    else if (comandoBT.equalsIgnoreCase("ESTADO")) {
+      String estadoActual = "P1: " + String(estadoPulsador1 ? "ON" : "OFF") + 
+                            ", P2: " + String(estadoPulsador2 ? "ON" : "OFF");
+      SerialBT.println(estadoActual);
+    }
+    else {
+      SerialBT.println("Comando no reconocido.");
+    }
+  }
+  delay(10);
+}
+```
+
+Explicación del Código:
+1.  Lectura de Pulsadores: Detecta cuándo un pulsante es presionado. Incluye una lógica simple antirrebote y un efecto de "toggle" (cambia de estado cada vez que se presiona). El cambio de estado se imprime en el monitor serie y se envía por Bluetooth.
+2.  Recepción de Comandos Bluetooth: Escucha constantemente si hay datos entrantes por Bluetooth. Cuando recibe un comando (una cadena de texto terminada en `\n`), lo compara con una lista de comandos predefinidos y ejecuta una acción.
+3.  Retroalimentación: Envía confirmación de las acciones tanto al monitor serie como de vuelta al dispositivo conectado por Bluetooth.
+
+ Configuración del Smartphone
+
+1.  Instalar la App: Descarga e instala Dabble (disponible para iOS y Android) o Talk to ESP32.
+2.  Conexión Bluetooth: Activa el Bluetooth en tu teléfono. Abre la app y busca el dispositivo llamado "ESP32_Practica01" para emparejarte.
+3.  Enviar Comandos de Voz:
+    - En Dabble, ve al módulo Terminal. Allí puedes escribir texto o usar el micrófono para dictar comandos. El texto reconocido se enviará al ESP32 como si fuera un mensaje escrito.
+    - En Talk to ESP32, la interfaz está diseñada específicamente para enviar comandos de voz. Al presionar el botón del micrófono, la aplicación transcribirá tu voz a texto y lo enviará como un comando.
+4.  Comandos de Prueba: Usa comandos como "ENCENDER LUZ 1", "APAGAR LUZ 1", "ESTADO".
+
+📊 Análisis y Discusión de Resultados
+
+1.  Entradas Físicas vs. Entradas de Voz: Compara la inmediatez y la precisión de cada método. Los pulsadores ofrecen una respuesta táctil y determinista, mientras que la voz es más "natural" pero puede ser menos precisa en entornos ruidosos.
+2.  Procesamiento Local vs. Basado en App: En esta práctica, el reconocimiento de voz se realiza en el smartphone. ¿Qué ventajas (privacidad, latencia) tendría realizar el procesamiento directamente en el ESP32? ¿Qué limitaciones encontrarías?
+3.  Seguridad: Un sistema que permite control por voz desde cualquier smartphone conectado puede ser inseguro. ¿Cómo podrías implementar un sistema de autenticación, como el mencionado en estudios sobre sistemas de voz multilingüe, donde "permite únicamente a la persona autorizada usar el sistema sin conexión"?
+
+ 🏠 Aplicación en Domótica
+
+Esta práctica sienta las bases para sistemas de domótica más complejos:
+
+- Control de Iluminación: Cada pulsador o comando de voz puede controlar un relé que encienda o apague una lámpara.
+- Control de Cortinas o Persianas: Comandos como "abrir cortina" o "cerrar persiana".
+- Escenas: Un solo comando de voz (ej. "modo cine") puede ejecutar múltiples acciones: atenuar luces, bajar pantalla, encender TV.
+- Accesibilidad: El control por voz es una herramienta fundamental para personas con movilidad reducida o discapacidades visuales.
+
+ 💡 Consejos para la Práctica
+
+- Usa la App Dabble: Esta aplicación está diseñada específicamente para este tipo de proyectos y te permite acceder a sensores del teléfono (acelerómetro, GPS) en prácticas posteriores.
+- Simplifica el Código: Empieza con una única funcionalidad (ej. solo los pulsadores) y luego añade la recepción de comandos por voz.
+- Experimenta con Respuestas: Haz que el ESP32 responda a tus comandos usando la función `SerialBT.println()` para ver los mensajes en el teléfono.
+- Documenta: Anota qué comandos de voz funcionan mejor y por qué. Reflexiona sobre cómo podrías mejorar el sistema.
